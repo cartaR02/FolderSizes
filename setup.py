@@ -1,15 +1,25 @@
+import os
 from setuptools import setup, find_packages
+
+def get_version():
+    version_file = os.path.join(os.path.dirname(__file__), 'foldersizes', 'filesizze.py')
+    with open(version_file) as f:
+        for line in f:
+            if line.startswith('__version__'):
+                delim = '"' if '"' in line else "'"
+                return line.split(delim)[1]
+    raise RuntimeError("Unable to find version string.")
 
 setup(
     name="FolderSizes",  # Name of your package
-    version="0.1.2",  # Version number
+    version=get_version(),  # Dynamically fetch version from filesizze.py
     packages=find_packages(),  # Find all packages in the folder
     install_requires=[  # List of dependencies, e.g., click
         "click",
     ],
     entry_points={
         'console_scripts': [
-            'foldersizes = foldersizes.filesizze:dirsizes',  # This defines the CLI command
+            'foldersizes = foldersizes.filesizze:dirsizes',  # Correct reference to the module
         ],
     },
     license="MIT",  # SPDX license expression

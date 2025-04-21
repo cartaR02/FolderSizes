@@ -2,27 +2,11 @@
 import os
 import click
 
-def get_size(path):
-    """Recursively total up file sizes under `path`."""
-    total = 0
-    for dirpath, _, filenames in os.walk(path):
-        for f in filenames:
-            try:
-                fp = os.path.join(dirpath, f)
-                total += os.path.getsize(fp)
-            except OSError:
-                pass
-    return total
+__version__ = "0.1.4"
 
-def human_readable(size, precision=2):
-    """Convert a byte count into a human‑readable string."""
-    for unit in ('B','KB','MB','GB','TB','PB'):
-        if size < 1024.0:
-            return f"{size:.{precision}f}{unit}"
-        size /= 1024.0
-    return f"{size:.{precision}f}EB"
 
 @click.command()
+@click.version_option(__version__, '-v', '--version', message='%(prog)s version %(version)s')
 @click.argument(
     "path",
     type=click.Path(exists=True),
@@ -52,7 +36,8 @@ def dirsizes(path, human, sort, files):
     # If no path is provided, use the current directory
     if path == ".":
         click.echo("No path provided, using current directory.")
-
+    
+    click.echo(f"Calculating sizes in: {path}")
     entries = []
     for entry in os.scandir(path):
         if entry.is_dir() or (files and entry.is_file()):
@@ -65,6 +50,22 @@ def dirsizes(path, human, sort, files):
     for name, size in entries:
         size_str = human_readable(size) if human else f"{size/1024/1024:.2f} MB"
         click.echo(f"{name:40}  {size_str}")
+
+def get_size(path):
+    """Recursively calculate the size of a directory."""
+    total_size = 0
+    for dirpath, dirnames, filenames in os.walk(path):
+        for f in filenames:
+            fp = os.path.join(dirpath, f)
+            total_size += os.path.getsize(fp)
+    return total_size
+
+def human_readable(size):
+    """Convert a size in bytes to a human-readable format."""
+    for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
+        if size < 1024:
+            return f"{size:.2f} {unit}"
+        size /= 1024
 
 if __name__ == "__main__":
     dirsizes()

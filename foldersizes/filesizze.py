@@ -2,7 +2,7 @@
 import os
 import click
 
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 
 
 @click.command()

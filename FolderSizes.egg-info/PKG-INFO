@@ -1,6 +1,6 @@
-Metadata-Version: 2.4
+Metadata-Version: 2.1
 Name: FolderSizes
-Version: 0.1.4
+Version: 0.1.5
 Summary: A simple script to list folder sizes
 Home-page: https://github.com/cartaR02/FolderSizes
 Author: Carter Struck
@@ -12,16 +12,6 @@ Classifier: Operating System :: OS Independent
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: click
-Dynamic: author
-Dynamic: author-email
-Dynamic: classifier
-Dynamic: description
-Dynamic: description-content-type
-Dynamic: home-page
-Dynamic: license
-Dynamic: license-file
-Dynamic: requires-dist
-Dynamic: summary
 
 # FolderSizes Project
 

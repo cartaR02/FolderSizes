@@ -14,19 +14,20 @@ __version__ = "0.1.4"
     required=False,
 )
 @click.option(
-    "-H", "--human",
+    "-h", "--human",
     is_flag=True,
-    help="Print sizes in human‑readable form (e.g. 1.23GB)."
+    help="Print sizes in human‑readable form (e.g. 1.23GB)"
 )
 @click.option(
     "-s", "--sort",
     is_flag=True,
-    help="Sort entries by size, largest first."
+    help="Sort entries by size, largest first"
 )
 @click.option(
-    "--files/--no-files",
+    "--files", "--all",
+    is_flag=True,
     default=False,
-    help="Also include files in the listing (not just subdirectories)."
+    help="Also include files in the listing (not just subdirectories)"
 )
 def dirsizes(path, human, sort, files):
     """
@@ -35,7 +36,7 @@ def dirsizes(path, human, sort, files):
     """
     # If no path is provided, use the current directory
     if path == ".":
-        click.echo("No path provided, using current directory.")
+        click.echo("No path provided, using current directory")
     
     click.echo(f"Calculating sizes in: {path}")
     entries = []
@@ -52,7 +53,7 @@ def dirsizes(path, human, sort, files):
         click.echo(f"{name:40}  {size_str}")
 
 def get_size(path):
-    """Recursively calculate the size of a directory."""
+    """Recursively calculate the size of a directory"""
     total_size = 0
     for dirpath, dirnames, filenames in os.walk(path):
         for f in filenames:
@@ -61,7 +62,7 @@ def get_size(path):
     return total_size
 
 def human_readable(size):
-    """Convert a size in bytes to a human-readable format."""
+    """Convert a size in bytes to a human-readable format"""
     for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
         if size < 1024:
             return f"{size:.2f} {unit}"
